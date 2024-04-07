@@ -14,7 +14,7 @@ class CrawlerMyInfo:
         self.service = Service(executable_path=driver_path)
         self.driver = webdriver.Chrome(service=self.service)
         self.data = data
-        self.print_trace = True
+        self.print_trace = False
 
     def get_website(self, url):
         self.driver.get(url)
@@ -48,6 +48,8 @@ class CrawlerMyInfo:
             complex_drop_down("//div[@data-automation-id='multiSelectContainer']", "input[data-automation-id='searchBox']", "LinkedIn", "//p[@data-automation-label='LinkedIn']", self.driver)
         except Exception as e:
             print("Error in \"Where did you hear about us?\"")
+            print("Trying different input method..")
+            simple_drop_down(f"//button[@data-automation-id='sourceDropdown']", f"//li[@data-value='914289f44c2f014b82d6d4db5839fd43']", self.driver)
             click_blank_space(self.driver)
             if self.print_trace: print(e)
         finally:
@@ -104,10 +106,12 @@ class CrawlerMyInfo:
             static_input("//input[@data-automation-id='addressSection_addressLine1']", self.data["addr"], self.driver)
             static_input("//input[@data-automation-id='addressSection_city']", self.data["city"], self.driver)
             simple_drop_down(f"//button[@data-automation-id='addressSection_countryRegion']", f"//li[@data-value='42a98072ea70411dabde47d538d4f156']", self.driver) # HAMPSHIRE = 42a98072ea70411dabde47d538d4f156
+            time.sleep(1)
             static_input("//input[@data-automation-id='addressSection_postalCode']", self.data["postcode"], self.driver)
         except Exception as e:
             print("Error entering address.")
             click_blank_space(self.driver)
+            static_input("//input[@data-automation-id='addressSection_postalCode']", self.data["postcode"], self.driver)
             if self.print_trace: print(e)
         finally:
             print("Done...\n") 
@@ -117,7 +121,6 @@ class CrawlerMyInfo:
             print("Entering phone.")
             simple_drop_down(f"//button[@data-automation-id='phone-device-type']", f"//li[@data-value='8c5fc5940f0b01db13a71f59af004207']", self.driver) # MOBILE = 8c5fc5940f0b01db13a71f59af004207
             time.sleep(3)
-
             container = "//div[@data-automation-id='multiSelectContainer'][@data-automation-id-prompt='country-phone-code']"
             input_box = "input[data-automation-id='searchBox']"
             search_query = "united kingdom"

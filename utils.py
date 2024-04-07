@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import time
 import json
 
@@ -55,7 +55,9 @@ def radial_input_no(element_id, radial_id, label, driver):
     no_radio_button = driver.find_element(By.ID, no_input_id)
     no_radio_button.click()
 
+    
 def simple_drop_down(element_id, list_item_id, driver):
+    RETRIES = 3
     for _ in range(RETRIES):
         try:
             dropdown_menu = WebDriverWait(driver, WAIT_TIME).until(
@@ -71,7 +73,16 @@ def simple_drop_down(element_id, list_item_id, driver):
             list_item.click()
             break  
         except StaleElementReferenceException:
-            continue  
+            continue
+        except TimeoutException:
+            print("Element not found within the specified wait time.")
+            print("Trying default value.")
+            list_item = WebDriverWait(driver, WAIT_TIME).until(
+                EC.element_to_be_clickable((By.XPATH, "//li[@data-value='a2d04858077a01c4690bd80910607997']"))
+            )
+            list_item.click()
+            break
+
 
 def complex_drop_down(container_id, element_id, text_input, list_item_id, driver):
 
