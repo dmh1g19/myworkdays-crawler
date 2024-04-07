@@ -138,12 +138,21 @@ def click_button2(element_xpath, driver):
     time.sleep(1)
     button.click()
 
-def fill_date_widget_calendar(icon_element, calendar_element, month_element, driver):
+def fill_date_widget_calendar(icon_element, calendar_element, month_element, from_to_year_element, driver):
     driver.find_element_by_xpath(icon_element).click()
-                
     calendar_visible = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.XPATH, calendar_element))
     )
+
+    span_element = driver.find_element(By.XPATH, "//span[@data-automation-id='monthPickerSpinnerLabel']")
+    current_date = span_element.text
+    num_of_clicks = max(int(current_date), int(from_to_year_element)) - min(int(current_date), int(from_to_year_element))
+    year_decrease_button = driver.find_element(By.XPATH, "//button[@data-automation-id='monthPickerLeftSpinner']") #Click the back button
+
+    for _ in range(0, num_of_clicks):
+        year_decrease_button.click()
+    time.sleep(1)
+
     driver.find_element_by_xpath(month_element).click()
 
 def fill_date_widget(month_element, year_element, month, year, driver):

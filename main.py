@@ -41,10 +41,10 @@ crawler_my_info.press_submit_button()
 
 crawler_my_experience = CrawlerMyExperience(crawler_my_info.get_driver(), cv_file_path, data_work, data_edu, data_lang)
 crawler_my_experience.fill_experience_slots()
-#crawler_my_experience.fill_education_slots()
-#crawler_my_experience.fill_language_slots()
-#crawler_my_experience.add_skills()
-#crawler_my_experience.add_CV()
+crawler_my_experience.fill_education_slots()
+crawler_my_experience.fill_language_slots()
+crawler_my_experience.add_skills()
+crawler_my_experience.add_CV()
 
 if input("Completed experience section, press enter to move to next section..") == "":
     crawler_my_experience.press_submit_button()

@@ -23,6 +23,7 @@ class CrawlerMyExperience:
 
     def fill_experience_slots(self):
         try:
+            scroll_to_bottom_then_top(self.driver)
             time.sleep(3)
             print("Adding experience, total entries %r." % len(self.data_work_experience))
             click_button2("//button[@aria-label='Add Work Experience' and @data-automation-id='Add']", self.driver)
@@ -31,29 +32,25 @@ class CrawlerMyExperience:
             for i in range(len(self.data_work_experience)):
                 experience = self.data_work_experience[i+1]
                 work_experience_xpath = "//div[@data-automation-id='workExperience-%d']" % (i + 1)
+                
+                static_input(f"{work_experience_xpath}//input[@data-automation-id='jobTitle']", experience['job_title'], self.driver)
+                static_input(f"{work_experience_xpath}//input[@data-automation-id='company']", experience['company'], self.driver)
+                static_input(f"{work_experience_xpath}//input[@data-automation-id='location']", experience['location'], self.driver)
 
-
+                # From year field
                 icon_element = f"{work_experience_xpath}//div[@data-automation-id='formField-startDate']//div[@data-automation-id='dateIcon']"
                 calendar_element = "//ul[@data-automation-id='monthPickerGrid']"
                 month_element = f"//li[@data-uxi-monthpicker-month='{experience['from_month']}']"
-                            
-                self.driver.find_element_by_xpath(icon_element).click()
-                calendar_visible = WebDriverWait(self.driver, 10).until(
-                    EC.visibility_of_element_located((By.XPATH, calendar_element))
-                )
+                fill_date_widget_calendar(icon_element, calendar_element, month_element, experience['from_year'], self.driver)
+                
+                # To year fieeld
+                icon_element = f"{work_experience_xpath}//div[@data-automation-id='formField-endDate']//div[@data-automation-id='dateIcon']"
+                calendar_element = "//ul[@data-automation-id='monthPickerGrid']"
+                month_element = f"//li[@data-uxi-monthpicker-month='{experience['to_month']}']"
+                fill_date_widget_calendar(icon_element, calendar_element, month_element, experience['to_year'], self.driver)
 
-                span_element = self.driver.find_element(By.XPATH, "//span[@data-automation-id='monthPickerSpinnerLabel']")
-                current_date = span_element.text
-                num_of_clicks = max(int(current_date), int(experience['from_year'])) - min(int(current_date), int(experience['from_year']))
-                year_decrease_button = self.driver.find_element(By.XPATH, "//button[@data-automation-id='monthPickerLeftSpinner']")
-                for _ in range(0, num_of_clicks):
-                    year_decrease_button.click()
+                static_input(f"{work_experience_xpath}//textarea[@data-automation-id='description']", experience['description'], self.driver)
                 time.sleep(1)
-                self.driver.find_element_by_xpath(month_element).click()
-           
-
-                #static_input(f"{work_experience_xpath}//textarea[@data-automation-id='description']", experience['description'], self.driver)
-                #time.sleep(1)
 
                 if i < len(self.data_work_experience) - 1:
                     click_button2("//button[@aria-label='Add Another Work Experience' and @data-automation-id='Add Another']", self.driver)
