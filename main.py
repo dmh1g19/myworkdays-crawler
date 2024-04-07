@@ -3,7 +3,7 @@ from crawler_experience import *
 from parse_data import *
 from thread_listener import *
 
-cv_file_path = '/home/test/Desktop/myworkdays-crawler/CV.pdf'
+cv_file_path = '/home/test/Desktop/myworkdays-crawler/CV.pdf' # Change this, an absolute path is required
 driver_path = './chromedriver'
 config_file_path = './info.txt'
 work_experience_file_path = './work_experience.txt'
