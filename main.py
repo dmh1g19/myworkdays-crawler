@@ -11,11 +11,7 @@ edu_file_path = "./education.txt"
 languages_file_path = './languages.txt'
 cookies_file_path = 'cookies.txt'
 
-#url = input("Provide form link: ")
-
-#url = "https://relx.wd3.myworkdayjobs.com/en-US/relx/login?redirect=%2Fen-US%2Frelx%2Fjob%2FParis%2FSales-Development-Representative_R75982-1%2Fapply%2FapplyManually"
-#url = "https://workday.wd5.myworkdayjobs.com/en-US/Workday/login?redirect=%2Fen-US%2FWorkday%2Fjob%2FIreland%252C-Dublin%2FSenior-Software-Development-Engineer---Application-Development_JR-0086602%2Fapply%2FapplyManually"
-url = "https://dell.wd1.myworkdayjobs.com/en-US/External/login?redirect=%2Fen-US%2FExternal%2Fjob%2FRemote---United-Kingdom-Scotland%2FIntern-Software-Engineer---Platform-Engineering----100--Remote-UK-_R240901%2Fapply%2FautofillWithResume"
+url = input("Provide form link: ")
 
 parser = Parser(config_file_path, work_experience_file_path, edu_file_path, languages_file_path)
 parser.read_config_file()
