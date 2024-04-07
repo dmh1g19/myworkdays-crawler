@@ -31,22 +31,29 @@ class CrawlerMyExperience:
             for i in range(len(self.data_work_experience)):
                 experience = self.data_work_experience[i+1]
                 work_experience_xpath = "//div[@data-automation-id='workExperience-%d']" % (i + 1)
-                static_input(f"{work_experience_xpath}//input[@data-automation-id='jobTitle']", experience['job_title'], self.driver)
-                static_input(f"{work_experience_xpath}//input[@data-automation-id='company']", experience['company'], self.driver)
-                static_input(f"{work_experience_xpath}//input[@data-automation-id='location']", experience['location'], self.driver)
-            
-                fill_date_widget(
-                    f"{work_experience_xpath}//div[@data-automation-id='formField-startDate']//div[@data-automation-id='dateSectionMonth-display']",
-                    f"{work_experience_xpath}//div[@data-automation-id='formField-startDate']//div[@data-automation-id='dateSectionYear-display']",
-                    experience['from_month'], experience['from_year'], self.driver)
-            
-                fill_date_widget(
-                    f"{work_experience_xpath}//div[@data-automation-id='formField-endDate']//div[@data-automation-id='dateSectionMonth-display']",
-                    f"{work_experience_xpath}//div[@data-automation-id='formField-endDate']//div[@data-automation-id='dateSectionYear-display']",
-                    experience['to_month'], experience['to_year'], self.driver)
-            
-                static_input(f"{work_experience_xpath}//textarea[@data-automation-id='description']", experience['description'], self.driver)
+
+
+                icon_element = f"{work_experience_xpath}//div[@data-automation-id='formField-startDate']//div[@data-automation-id='dateIcon']"
+                calendar_element = "//ul[@data-automation-id='monthPickerGrid']"
+                month_element = f"//li[@data-uxi-monthpicker-month='{experience['from_month']}']"
+                            
+                self.driver.find_element_by_xpath(icon_element).click()
+                calendar_visible = WebDriverWait(self.driver, 10).until(
+                    EC.visibility_of_element_located((By.XPATH, calendar_element))
+                )
+
+                span_element = self.driver.find_element(By.XPATH, "//span[@data-automation-id='monthPickerSpinnerLabel']")
+                current_date = span_element.text
+                num_of_clicks = max(int(current_date), int(experience['from_year'])) - min(int(current_date), int(experience['from_year']))
+                year_decrease_button = self.driver.find_element(By.XPATH, "//button[@data-automation-id='monthPickerLeftSpinner']")
+                for _ in range(0, num_of_clicks):
+                    year_decrease_button.click()
                 time.sleep(1)
+                self.driver.find_element_by_xpath(month_element).click()
+           
+
+                #static_input(f"{work_experience_xpath}//textarea[@data-automation-id='description']", experience['description'], self.driver)
+                #time.sleep(1)
 
                 if i < len(self.data_work_experience) - 1:
                     click_button2("//button[@aria-label='Add Another Work Experience' and @data-automation-id='Add Another']", self.driver)
@@ -90,7 +97,6 @@ class CrawlerMyExperience:
             print(e)
         finally:
             print("Done...\n")
-
 
     def fill_language_slots(self):
         try:

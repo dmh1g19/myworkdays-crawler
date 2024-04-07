@@ -47,7 +47,7 @@ def radial_input_no(element_id, radial_id, label, driver):
     radio_group = WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, f"div[data-automation-id='{element_id}']"))
     )
-    
+
     # Find the label that contains "No"
     no_label = radio_group.find_element(By.XPATH, f"{radial_id}")
     no_input_id = no_label.get_attribute(f'{label}')
@@ -137,6 +137,14 @@ def click_button2(element_xpath, driver):
     scroll_to_element(button, driver)
     time.sleep(1)
     button.click()
+
+def fill_date_widget_calendar(icon_element, calendar_element, month_element, driver):
+    driver.find_element_by_xpath(icon_element).click()
+                
+    calendar_visible = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.XPATH, calendar_element))
+    )
+    driver.find_element_by_xpath(month_element).click()
 
 def fill_date_widget(month_element, year_element, month, year, driver):
     get_from_month_element = driver.find_element_by_xpath(month_element)

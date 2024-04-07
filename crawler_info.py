@@ -130,7 +130,7 @@ class CrawlerMyInfo:
             print("Is the field already populated?")
             static_input("//input[@data-automation-id='phone-number']", self.data["phone"], self.driver)
         finally:
-            pass
+            print("Done...\n") 
 
     def press_submit_button(self):
         try:
