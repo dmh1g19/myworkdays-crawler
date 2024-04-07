@@ -14,6 +14,7 @@ class CrawlerMyInfo:
         self.service = Service(executable_path=driver_path)
         self.driver = webdriver.Chrome(service=self.service)
         self.data = data
+        self.print_trace = True
 
     def get_website(self, url):
         self.driver.get(url)
@@ -36,7 +37,7 @@ class CrawlerMyInfo:
             time.sleep(5) 
         except Exception as e:
             print("Error in sign_in")
-            print(e)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n")
 
@@ -47,18 +48,17 @@ class CrawlerMyInfo:
             complex_drop_down("//div[@data-automation-id='multiSelectContainer']", "input[data-automation-id='searchBox']", "LinkedIn", "//p[@data-automation-label='LinkedIn']", self.driver)
         except Exception as e:
             print("Error in \"Where did you hear about us?\"")
-            #print(e)
+            click_blank_space(self.driver)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n")
 
     def have_you_worked_for_us_before(self):
         try:
-            print("Filling \"have you worked for us before?\"")
-            radial_input_no("previousWorker", ".//label[contains(text(), 'No')]", "for", self.driver)
-            time.sleep(1) 
+            radial_input_no("//div[@data-automation-id='previousWorker']", ".//label[contains(text(), 'No')]", "for", self.driver)
         except Exception as e:
             print("Error in \"Have you worked for us before?\"")
-            print(e)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n")
 
@@ -69,7 +69,8 @@ class CrawlerMyInfo:
             time.sleep(2) 
         except Exception as e:
             print("Error in country drop down select.")
-            print(e)
+            click_blank_space(self.driver)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n")
 
@@ -80,7 +81,8 @@ class CrawlerMyInfo:
             time.sleep(2) 
         except Exception as e:
             print("Error selecting name prefix.")
-            print(e)
+            click_blank_space(self.driver)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n")
 
@@ -92,7 +94,7 @@ class CrawlerMyInfo:
             time.sleep(1) 
         except Exception as e:
             print("Error entering name and surname.")
-            print(e)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n") 
  
@@ -105,7 +107,8 @@ class CrawlerMyInfo:
             static_input("//input[@data-automation-id='addressSection_postalCode']", self.data["postcode"], self.driver)
         except Exception as e:
             print("Error entering address.")
-            print(e)
+            click_blank_space(self.driver)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n") 
 
@@ -138,7 +141,7 @@ class CrawlerMyInfo:
             click_button2("//button[@data-automation-id='bottom-navigation-next-button']", self.driver)
         except Exception as e:
             print("Error pressing button.")
-            print(e)
+            if self.print_trace: print(e)
         finally:
             print("Done...\n") 
 
