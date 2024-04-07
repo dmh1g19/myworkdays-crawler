@@ -1,0 +1,8 @@
+name=example
+email=example
+password=example
+surname=example
+addr=example
+city=example
+postcode=example
+phone=example

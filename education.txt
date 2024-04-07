@@ -1,0 +1,8 @@
+entry=1
+school=example
+degree=8c5fc5940f0b01a2e5131e10c500c4cd
+field=example
+gpa=example
+from=2019
+to=2024
+end=""
