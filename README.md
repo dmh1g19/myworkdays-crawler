@@ -1,7 +1,7 @@
 # myworkdays-crawler
 
 ## This script is an automatic form filler for 'myworkdays' job applications
--> Makes filling in repetitive forms usd by different companies quick and easy
+-> Makes filling in repetitive forms used by different companies quick and easy
 -> Modular and flaxible design
 
 # NOTE 
